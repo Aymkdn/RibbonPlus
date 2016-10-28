@@ -8,6 +8,8 @@ After spending a couple of days, I've been able to create RibbonPlus that permit
 
 Just call `ribbonplus.min.js` in the browser.
 
+Tested with Sharepoint 2010 and Sharepoint 2013 On-Premise, and with last versions of Firefox, Chrome, and IE11.
+
 ## Example
 
 ```javascript
