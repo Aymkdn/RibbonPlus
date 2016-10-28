@@ -73,3 +73,62 @@ rp.ready(function() {
   ])
 ;})
 ```
+
+### Documentation
+
+Each function is documented.
+
+#### addTab(tabName, [options])
+
+Permits to create a new Tab into the Ribbon.
+ 
+ ```
+@param {String} tabName The tab name that appears at the top of the ribbon (e.g. "Edit")
+@param {Object} [options]
+ → @param {String} [options.id=RibbonPlus.tabName] An unique ID for the tab (e.g. "Ribbon.ListForm.Edit")
+ → @param {String} [options.description=""] A description for your tab (when the mouse moves over the tab name then the description will show up)
+ → @param {String} [options.cssClass=''] To apply a CSS class to your tab
+ → @param {Object} [options.before='Tab Name'] To add this tab before the one called "Tab Name"; by default the tab is added at the end
+```
+
+#### addGroup(tabName, groupName, [options])
+
+Permit to add a group of buttons into a tab (e.g. the group "Commit" of tab "Edit" contains two buttons that are "Save" and "Cancel").
+
+```
+@param {String} tabName The tab name where the group must be added (e.g. "Edit")
+@param {String} groupName The group name (e.g. "Commit")
+@param {Object} [options]
+ → @param {String} [options.id=RibbonPlus.TabName.GroupName] The unique ID you want for this group
+```
+
+#### addButtons(tabName, groupName, buttons)
+
+It will add buttons to the ribbon.
+
+```
+@param {String} tabName    The name of the tab where the button must be added (e.g. "Edit")
+@param {String} groupName  The name of the group of buttons where the button must be added (e.g. "Commit")
+@param {Array} buttons     An array of objects that represents the buttons... Array of 1 element for a big alone button... the array can be upto 3 buttons (see below)
+ → @param {String} name     The name for the button (e.g. "Save")
+ → @param {String} [description=""] The description will appear when the mouse is over the button (e.g. "By clicking this button your item will be saved into the database")
+ → @param {String} [descriptionTitle=buttonName] A title for the description (e.g. "Button to Save your Item")
+ → @param {String} [image="/_layouts/15/images/placeholder32x32.png"] If it's a large icon then it must be 32x32, otherwise it's 16x16 for small icons
+ → @param {Function} [onclick=function(){}] The action to take when clicking the button
+ → @param {Boolean} [small=false] True if it's a small button (in the case there is only 1 item in the array and we want it to be a small button)
+ 
+@example
+// to add one big alone button:
+rp.addButtons('Edit', 'Commit', [
+  {
+    name:'Save as a Draft',
+  }
+]);
+
+// to add three small buttons in the same column:
+rp.addButtons('Edit', 'Commit', [
+  { name:'Action 1' },
+  { name:'Action 2' }
+  { name:'Action 3'}
+])
+```
