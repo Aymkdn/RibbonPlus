@@ -8,6 +8,7 @@
 var RibbonPlus = function() {
   var _this=this;
   this.ribbon = null;
+  this.isReady=false;
   this.pageManager = null;
   // we need the page component to associate actions to buttons
   this.RibbonPlusPageComponent = function() {
@@ -38,7 +39,10 @@ var RibbonPlus = function() {
         _this.pageManager = SP.Ribbon.PageManager.get_instance();
         _this.pageManager.add_ribbonInited(function () {
           _this.ribbon = (SP.Ribbon.PageManager.get_instance()).get_ribbon();
-          fct.call(_this);
+          if (!_this.isReady) {
+            _this.isReady=true;
+            fct.call(_this);
+          }
         });
         var ribbon = null;
         try { ribbon = _this.pageManager.get_ribbon() } catch (e) { reject(e) }
@@ -49,7 +53,10 @@ var RibbonPlus = function() {
           }
         } else {
           _this.ribbon = (SP.Ribbon.PageManager.get_instance()).get_ribbon();
-          fct.call(_this);
+          if (!_this.isReady) {
+            _this.isReady=true;
+            fct.call(_this);
+          }
         }
       } catch(e) { reject(e) }
     }
