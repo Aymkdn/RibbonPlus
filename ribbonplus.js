@@ -240,7 +240,7 @@ var RibbonPlus = function() {
             controlProperties.Image32by32 = buttons[i].image || '/_layouts/15/images/placeholder32x32.png';
             controlProperties.Image32by32Class = buttons[i].cssClass || "";
           }
-          controlProperties.ToolTipTitle = buttons[i].descriptionTitle || '';
+          controlProperties.ToolTipTitle = buttons[i].descriptionTitle || buttons[i].name;
           controlProperties.LabelText = buttons[i].name || "Unnamed";
 
           // function(commandId, props, seq) {}
