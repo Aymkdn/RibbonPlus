@@ -165,6 +165,7 @@ var RibbonPlus = function() {
    *   @param {String} name     The name for the button (e.g. "Save")
    *   @param {String} [description=""] The description will appear when the mouse is over the button (e.g. "By clicking this button your item will be saved into the database")
    *   @param {String} [descriptionTitle=buttonName] A title for the description (e.g. "Button to Save your Item")
+   *   @param {String} [cssClass=""] Add the CSS class to the icon
    *   @param {String} [image="/_layouts/15/images/placeholder32x32.png"] If it's a large icon then it must be 32x32, otherwise it's 16x16 for small icons
    *   @param {Function} [onclick=function(){}] The action to take when clicking the button
    *   @param {Boolean} [small=false] True if it's a small button (in the case there is only 1 item in the array and we want it to be a small button)
@@ -232,10 +233,13 @@ var RibbonPlus = function() {
           controlProperties.Id = buttons[i].id + ".ControlProperties";
           controlProperties.TemplateAlias = 'o1';
           controlProperties.ToolTipDescription = buttons[i].description || "";
-          if (buttons[i].small)
+          if (buttons[i].small) {
             controlProperties.Image16by16 = buttons[i].image || '/_layouts/15/images/discussHS.png';
-          else
+            controlProperties.Image16by16Class = buttons[i].cssClass || "";
+          } else {
             controlProperties.Image32by32 = buttons[i].image || '/_layouts/15/images/placeholder32x32.png';
+            controlProperties.Image32by32Class = buttons[i].cssClass || "";
+          }
           controlProperties.ToolTipTitle = buttons[i].descriptionTitle || '';
           controlProperties.LabelText = buttons[i].name || "Unnamed";
 
