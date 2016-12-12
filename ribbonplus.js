@@ -58,7 +58,7 @@ var RibbonPlus = function() {
             fct.call(_this);
           }
         }
-      } catch(e) { reject(e) }
+      } catch(e) { console.warn(e) }
     }
     SP.SOD.executeOrDelayUntilScriptLoaded(function () {
       initRibbon();
@@ -147,6 +147,14 @@ var RibbonPlus = function() {
     tab = _this.ribbon.getChildByTitle(tabName);
     if (!tab) throw new Error("[RibbonPlus.addGroup] The tab with the name `"+tabName+"` doesn't exist.");
 
+    // check if the ribbon is open
+    var tabID = tab.get_id();
+    if (!$get(tabID)) {
+      SelectRibbonTab(tabID, true);
+      this.waitForTab.apply(this, [tabID, "addGroup"].concat(Array.prototype.slice.call(arguments)));
+      return this;
+    }
+
     // if no `id` then create one
     if (!options.id) options.id = tab.get_id() + "." + groupName.replace(/\W/g,"");
 
@@ -155,6 +163,22 @@ var RibbonPlus = function() {
     tab.addChild(group);
     _this.ribbon.refresh();
   };
+
+  /**
+   * Permit to make sure the tab is loaded
+   * @param  {String} tabID The tab ID
+   */
+  this.waitForTab = function(tabID) {
+    var _this=this;
+    var args=Array.prototype.slice.call(arguments);
+    if (!$get(tabID)) {
+      setTimeout(function() {
+        _this.waitForTab.apply(_this, args)
+      }, 50)
+    } else {
+      _this[args[1]].apply(_this, args.slice(2))
+    }
+  }
 
   /**
    * It will add buttons to the ribbon
@@ -197,6 +221,14 @@ var RibbonPlus = function() {
     // we want to retrieve a group
     tab = _this.ribbon.getChildByTitle(tabName);
     if (!tab) throw new Error("[RibbonPlus.addButton] The tab with the name `"+tabName+"` doesn't exist.");
+    
+    // check if the ribbon is open
+    var tabID = tab.get_id();
+    if (!$get(tabID)) {
+      SelectRibbonTab(tabID, true);
+      this.waitForTab.apply(this, [tabID, "addButtons"].concat(Array.prototype.slice.call(arguments)));
+      return this;
+    }
 
     for (list in tab) {
       if (tab.hasOwnProperty(list) && tab[list] instanceof CUI.List) {
@@ -263,7 +295,7 @@ var RibbonPlus = function() {
     _this.pageManager.addPageComponent(rpPC);
 
     // enable the buttons
-    SelectRibbonTab(tab.get_id(), true);
+    SelectRibbonTab(tabID, true);
     for (i=0; i<buttonsLength; i++) buttons[i].button.set_enabled(true);
     _this.ribbon.refresh();
   }
